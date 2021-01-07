@@ -13,9 +13,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Pod install
+        run: pod install
+        shell: bash
       - name: File hierarchy
         run: ls -R
-      - name: Check pod version
-        run: pod --version
-        shell: bash
+
     
