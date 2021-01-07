@@ -11,12 +11,15 @@ jobs:
     runs-on: macOS-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: checkout
+        uses: actions/checkout@v2
       - name: setup-cocoapods
         uses: maxim-lobanov/setup-cocoapods@v1
         with:
           version: latest
-      - uses: sersoft-gmbh/xcodebuild-action@v1
+      - run: pod install
+      - name: build-for-testing
+        uses: sersoft-gmbh/xcodebuild-action@v1
         with:
           workspace: EmarsysSDK.xcworkspace
           scheme: Tests
