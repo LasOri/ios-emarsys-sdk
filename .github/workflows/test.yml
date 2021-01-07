@@ -13,10 +13,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+     
       - name: Pod install
         run: pod install
         shell: bash
+      
       - name: File hierarchy
         run: ls -R
+      
+      - name: build-for-testing
+        uses: sersoft-gmbh/xcodebuild-action@v1
+        with:
+          workspace: EmarsysSDK.xcworkspace
+          scheme: Tests
+          destination: platform=iOS 
+          action: build-for-testing
+          allow-provisioning-updates: true
 
     
