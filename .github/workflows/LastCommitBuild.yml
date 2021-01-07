@@ -1,0 +1,24 @@
+name: Last commit build
+
+on:
+  workflow_dispatch:  
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: macOS-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup-cocoapods
+        uses: maxim-lobanov/setup-cocoapods@v1
+      - uses: sersoft-gmbh/xcodebuild-action@v1
+        with:
+          workspace: EmarsysSDK.xcworkspace
+          scheme: Tests
+          destination: generic/platform=iOS 
+          action: build-for-testing
+          allow-provisioning-updates: true
+      
