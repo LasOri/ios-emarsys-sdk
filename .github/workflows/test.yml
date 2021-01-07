@@ -18,15 +18,15 @@ jobs:
         run: pod install
         shell: bash
       
-      - name: File hierarchy
-        run: ls -R
+#       - name: File hierarchy
+#         run: ls -R
       
       - name: build-for-testing
         uses: sersoft-gmbh/xcodebuild-action@v1
         with:
           workspace: EmarsysSDK.xcworkspace
           scheme: Tests
-          destination: platform=iOS 
+          destination: generic/platform=iOS
           action: build-for-testing
           allow-provisioning-updates: true
 
