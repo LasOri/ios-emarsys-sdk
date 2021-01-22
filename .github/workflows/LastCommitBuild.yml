@@ -21,7 +21,6 @@ jobs:
         with:
           workspace: EmarsysSDK.xcworkspace
           scheme: Tests
-          destination: platform=ios
-          action: test
+          action: build-for-testing
 
       
