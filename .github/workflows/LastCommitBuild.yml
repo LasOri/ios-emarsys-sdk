@@ -16,10 +16,10 @@ jobs:
       - name: Cache cocoapods
         uses: actions/cache@v2
         with:
-          path: /Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          path: ~/Library/Caches/CocoaPods
+          key: ${{ runner.os }}-pods
           restore-keys: |
-            ${{ runner.os }}-pods-
+            ${{ runner.os }}-pods
       - name: Install Dependencies
         run: pod install --no-repo-update --verbose
         shell: bash
