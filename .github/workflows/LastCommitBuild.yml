@@ -23,12 +23,12 @@ jobs:
       - name: Install Dependencies
         run: pod install --no-repo-update --verbose
         shell: bash
-      - name: Build for Testing
-        uses: sersoft-gmbh/xcodebuild-action@v1
-        with:
-          workspace: EmarsysSDK.xcworkspace
-          scheme: Tests
-          destination: generic/platform=iOS 
-          action: build-for-testing
-          allow-provisioning-updates: true
+#       - name: Build for Testing
+#         uses: sersoft-gmbh/xcodebuild-action@v1
+#         with:
+#           workspace: EmarsysSDK.xcworkspace
+#           scheme: Tests
+#           destination: generic/platform=iOS 
+#           action: build-for-testing
+#           allow-provisioning-updates: true
       
