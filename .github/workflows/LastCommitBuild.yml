@@ -20,7 +20,7 @@ jobs:
         uses: sersoft-gmbh/xcodebuild-action@v1
         with:
           workspace: EmarsysSDK.xcworkspace
-          scheme: Test
+          scheme: Tests
           destination: platform=ios
           action: test
 
