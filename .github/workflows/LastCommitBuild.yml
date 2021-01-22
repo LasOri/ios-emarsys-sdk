@@ -16,7 +16,7 @@ jobs:
       - name: Cache cocoapods
         uses: actions/cache@v2
         with:
-          path: /usr/local/bin/git/cocoapods
+          path: ~/Library/Caches/CocoaPods
           key: ${{ runner.os }}-pods
           restore-keys: |
             ${{ runner.os }}-pods
