@@ -21,7 +21,7 @@ jobs:
         with:
           workspace: EmarsysSDK.xcworkspace
           scheme: Tests
-          destination: platform=iOS
+          destination: "platform=iOS,name=iPhone 11"
           action: build-for-testing
 
       
