@@ -17,6 +17,9 @@ jobs:
       - name: Build4Testing
         run: echo ${{ secrets.SDK_HOST_MOBILEPROVISION }} > provprof  mkdir ~/Library | mkdir ~/Library/MobileDevice | mkdir ~/Library/MobileDevice/Provisioning\ Profiles | base64 -d -i provprof -o ~/Library/MobileDevice/Provisioning\ Profiles/SDKHost.mobileprovision | mkdir ~/tmp | xcodebuild -workspace ~/work/ios-emarsys-sdk/ios-emarsys-sdk/EmarsysSDK.xcworkspace -scheme Tests -configuration Debug -destination generic/platform=iOS build-for-testing -allowProvisioningUpdates -derivedDataPath ~/tmp
         shell: bash
+      - name: XCTestRun
+        run: ls ~/tmp/Build/Products
+        shell: bash
       - name: Test
         uses: sersoft-gmbh/xcodebuild-action@v1
         with:
