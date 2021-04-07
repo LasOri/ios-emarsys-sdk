@@ -20,7 +20,7 @@ jobs:
           ~/tmp
         shell: bash
       - name: Run tests on Firebase
-        run: echo ${{ secrets.FIREBASE_SERVICE_KEY }} > /tmp/sacc_key.json | ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file /tmp/sacc_key.json | ~/google-cloud-sdk/bin/gcloud config set project ${{ GCP_PROJECT }} --quiet | zip -r Tests.zip ~/tmp/Build/Products/ | ~/google-cloud-sdk/bin/gcloud firebase test ios run --quiet --test ./Tests.zip ${{ FIREBASE_DEVICES }}
+        run: echo ${{ secrets.FIREBASE_SERVICE_KEY }} > /tmp/sacc_key.json | ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file /tmp/sacc_key.json | ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet | zip -r Tests.zip ~/tmp/Build/Products/ | ~/google-cloud-sdk/bin/gcloud firebase test ios run --quiet --test ./Tests.zip ${{ secrets.FIREBASE_DEVICES }}
         shell: bash
 name: Last commit build
 'on':
