@@ -29,10 +29,10 @@ jobs:
         run: mkdir ~/tmp
         shell: bash      
       - name: Run tests on Firebase 1
-        run: echo ${{ secrets.FIREBASE_SERVICE_KEY }} > ~/tmp/sacc_key.json
+        run: echo ${{ secrets.FIREBASE_SERVICE_KEY }} > ~/tmp/sacc_key
         shell: bash
       - name: Run tests on Firebase 2
-        run: ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file ~/tmp/sacc_key.json
+        run: ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file ~/tmp/sacc_key
         shell: bash
       - name: Run tests on Firebase 3
         run: ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet
