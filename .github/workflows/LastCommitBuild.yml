@@ -12,6 +12,7 @@ jobs:
       - name: Setup certs
         uses: apple-actions/import-codesign-certs@v1
         with:
+          mobileprovision-base64: ${{ secrets.SDK_HOST_MOBILEPROVISION }}
           p12-file-base64: ${{ secrets.SDK_TEAM_P12 }}
           p12-password: ${{ secrets.SDK_TEAM_PASS }}
       - name: Build4Testing
