@@ -38,7 +38,7 @@ jobs:
         run: ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet
         shell: bash
       - name: Run tests on Firebase 4
-        run: ls ~/tmp/Build/Products
+        run: zip -r -j Tests.zip ~/tmp/Build/Products/*
         shell: bash     
       - name: Run tests on Firebase 5
         run: ~/google-cloud-sdk/bin/gcloud firebase test ios run --quiet --test ./Tests.zip ${{ secrets.FIREBASE_DEVICES }}
