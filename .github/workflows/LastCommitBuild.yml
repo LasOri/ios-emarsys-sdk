@@ -31,9 +31,6 @@ jobs:
       - name: Run tests on Firebase 1,25
         run: base64 -d -i ~/tmp/sacc_key -o ~/tmp/sacc_key.json
         shell: bash   
-      - name: Run tests on Firebase 1,5
-        run: cat ~/tmp/sacc_key.json
-        shell: bash
       - name: Run tests on Firebase 2
         run: ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file ~/tmp/sacc_key.json
         shell: bash
@@ -41,14 +38,8 @@ jobs:
         run: ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet
         shell: bash
       - name: Run tests on Firebase 4
-        run: cd ~/tmp/Build/Products | pwd | zip -r Tests.zip .
-        shell: bash
-      - name: Run tests on Firebase 4,25
-        run: ls -la
-        shell: bash
-      - name: Run tests on Firebase 4,5
-        run: zip -r Tests.zip .
-        shell: bash        
+        run: ls ~/tmp/Build/Products | pushd ~/tmp/Build/Products | zip -r Tests.zip ./ | popd
+        shell: bash     
       - name: Run tests on Firebase 5
         run: ~/google-cloud-sdk/bin/gcloud firebase test ios run --quiet --test ./Tests.zip ${{ secrets.FIREBASE_DEVICES }}
         shell: bash
