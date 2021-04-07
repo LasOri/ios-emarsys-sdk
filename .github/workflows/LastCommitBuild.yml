@@ -1,10 +1,4 @@
-name: Last commit build
-
-on:
-  workflow_dispatch:  
-  push:
-    branches: [ master ]
-
+---
 jobs:
   build:
     name: Build
@@ -12,6 +6,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Purge old stuffs
+        run: rm -rf ~/tmp | rm -rf ~/Library
+        shell: bash
       - name: Install Dependencies
         run: pod install --no-repo-update --verbose
         shell: bash
@@ -25,6 +22,12 @@ jobs:
           echo ${{ secrets.SDK_HOST_MOBILEPROVISION }} > provprof | mkdir ~/Library | mkdir ~/Library/MobileDevice | mkdir ~/Library/MobileDevice/Provisioning\ Profiles | base64 -d -i provprof -o ~/Library/MobileDevice/Provisioning\ Profiles/SDKHost.mobileprovision | mkdir ~/tmp | xcodebuild -workspace ~/work/ios-emarsys-sdk/ios-emarsys-sdk/EmarsysSDK.xcworkspace -scheme Tests -configuration Debug -destination generic/platform=iOS build-for-testing -allowProvisioningUpdates -derivedDataPath
           ~/tmp
         shell: bash
-      # - name: Run tests on Firebase
-      #   run: echo ${{ secrets.FIREBASE_SERVICE_KEY }} > /tmp/sacc_key.json | ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file /tmp/sacc_key.json | ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet | zip -r Tests.zip ~/tmp/Build/Products/ | ~/google-cloud-sdk/bin/gcloud firebase test ios run --quiet --test ./Tests.zip ${{ secrets.FIREBASE_DEVICES }}
-      #   shell: bash
+      - name: Run tests on Firebase
+        run: echo ${{ secrets.FIREBASE_SERVICE_KEY }} > /tmp/sacc_key.json | ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file /tmp/sacc_key.json | ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet | zip -r Tests.zip ~/tmp/Build/Products/ | ~/google-cloud-sdk/bin/gcloud firebase test ios run --quiet --test ./Tests.zip ${{ secrets.FIREBASE_DEVICES }}
+        shell: bash
+name: Last commit build
+'on':
+  push:
+    branches:
+      - master
+  workflow_dispatch: null
