@@ -16,6 +16,11 @@ jobs:
       - name: Install Dependencies
         run: pod install --no-repo-update --verbose
         shell: bash
+      - name: Setup certs
+        uses: apple-actions/import-codesign-certs@v1
+        with: 
+          p12-file-base64: ${{ secrets.ENTERPRISEP12 }}
+          p12-password: ${{ secrets.ENTERPRISE_PASS }}
       - name: Test
         uses: sersoft-gmbh/xcodebuild-action@v1
         with:
