@@ -32,8 +32,11 @@ jobs:
         run: curl https://sdk.cloud.google.com | bash
         shell: bash      
       - name: Run tests on Firebase 1
-        run: echo "${{ secrets.FIREBASE_SERVICE_KEY }}" > ~/tmp/sacc_key.json
-        shell: bash
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: sacc_key.json
+          json: ${{ secrets.FIREBASE_SERVICE_KEY }}
+          dir: ~/tmp        
       - name: Run tests on Firebase 1,5
         run: cat ~/tmp/sacc_key.json
         shell: bash
