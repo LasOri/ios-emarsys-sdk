@@ -6,89 +6,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Remove old directories
-        run: rm -rf ~/tmp | rm -rf ~/Library/MobileDevice
-        shell: bash
-      - name: Install provisioning profile for tests
-        uses: davidSchuppa/base64Secret-toFile-action@v1
-        with:
-          secret: ${{ secrets.SDK_HOST_MOBILEPROVISION }}
-          filename: SDKHost.mobileprovision
-          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
-      # - name: Install firebase service account key
-      #   uses: davidSchuppa/base64Secret-toFile-action@v1
-      #   with:
-      #     secret: ${{ secrets.FIREBASE_SERVICE_KEY }}
-      #     filename: sacc_key.json
-      #     destination-path: ~/tmp/
-      - name: Setup Sample Provisioning Profile
-        uses: davidSchuppa/base64Secret-toFile-action@v1
-        with:
-          secret: ${{ secrets.EMARSYS_SAMPLE_ENTERPRISE_PROV_PROF }}
-          filename: EmarsysSampleEnterpriseProvProf.mobileprovision
-          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
-      - name: Setup NotificationService Provisioning Profile
-        uses: davidSchuppa/base64Secret-toFile-action@v1
-        with:
-          secret: ${{ secrets.EMARSYS_SAMPLE_NOTIFICATION_SERVICE_ENTERPRISE_PROV_PROF }}
-          filename: EmarsysSampleNotificationServiceEnterpriseProvProf.mobileprovision
-          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
-      - name: Setup ipa export options plist
-        uses: davidSchuppa/base64Secret-toFile-action@v1
-        with:
-          secret: ${{ secrets.IPA_EXPORT_OPTIONS_PLIST }}
-          filename: IpaExportOptions.plist
-          destination-path: ./Emarsys\ Sample
-
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          project_id: ${{ secrets.GCP_PROJECT }}
-          service_account_key: ${{ secrets.FIREBASE_SERVICE_KEY }}
-
-      # - name: Setup Google Cloud CLI
-      #   run: curl https://sdk.cloud.google.com | bash
-      #   shell: bash
-      # - name: Auth To Google Cloud CLI
-      #   run: ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file ~/tmp/sacc_key.json
-      #   shell: bash
-      # - name: Setup Google Cloud Project
-      #   run: ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet
-      #   shell: bash
-      - name: Setup Sample App Certs
-        uses: apple-actions/import-codesign-certs@v1
-        with:
-          keychain-password: lofasz
-          p12-file-base64: ${{ secrets.ENTERPRISEP12 }}
-          p12-password: ${{ secrets.ENTERPRISE_PASS }}
-      - name: Setup Test Certs
-        uses: apple-actions/import-codesign-certs@v1
-        with:
-          create-keychain: false
-          keychain-password: lofasz
-          p12-file-base64: ${{ secrets.SDK_TEAM_P12 }}
-          p12-password: ${{ secrets.SDK_TEAM_PASS }}
       - name: Install Dependencies
         run: pod install --no-repo-update --verbose
         shell: bash
-      - name: Build For Testing
-        run: xcodebuild -workspace ~/work/ios-emarsys-sdk/ios-emarsys-sdk/EmarsysSDK.xcworkspace -scheme Tests -configuration Debug -destination generic/platform=iOS build-for-testing -allowProvisioningUpdates -derivedDataPath ~/tmp
+      - name: Setup certs
+        uses: apple-actions/import-codesign-certs@v1
+        with:
+          p12-file-base64: ${{ secrets.SDK_TEAM_P12 }}
+          p12-password: ${{ secrets.SDK_TEAM_PASS }}
+      - name: Build4Testing
+        run: mkdir ~/tmp | xcodebuild -workspace ~/work/ios-emarsys-sdk/ios-emarsys-sdk/EmarsysSDK.xcworkspace -scheme Tests -configuration Debug -destination generic/platform=iOS build-for-testing -allowProvisioningUpdates -derivedDataPath ~/tmp
         shell: bash
-      - name: Zip Test Files For Firebase
-        run: cd ~/tmp/Build/Products && zip -r ~/Tests.zip ./
-        shell: bash
-      - name: Run tests on Firebase
-        run: gcloud firebase test ios run --quiet --test ~/Tests.zip ${{ secrets.FIREBASE_DEVICES }}
-        shell: bash
-      - name: Install Dependencies
-        run: cd Emarsys\ Sample && pod deintegrate && pod install
-        shell: bash
-      - name: Sample archive
-        run: cd Emarsys\ Sample && xcodebuild -workspace Emarsys-Sample.xcworkspace -scheme Emarsys-Sample COMPILER_INDEX_STORE_ENABLE=NO archive -archivePath ./Emarsys-Sample.xcarchive -destination generic/platform=iOS -allowProvisioningUpdates | xcpretty
-        shell: bash
-      - name: Generate ipa
-        run: cd Emarsys\ Sample && xcodebuild -exportArchive -archivePath ./Emarsys-Sample.xcarchive -exportPath ./ -exportOptionsPlist ./IpaExportOptions.plist | xcpretty
-        shell: bash
+      - name: Test
+        uses: sersoft-gmbh/xcodebuild-action@v1
+        with:
+          action: build-for-testing
+          destination: platform=iOS Simulator,name=iPhone 11
+          scheme: Tests
+          workspace: EmarsysSDK.xcworkspace
 name: Last commit build
 'on':
   push:
