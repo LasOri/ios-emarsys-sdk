@@ -15,7 +15,7 @@ jobs:
           p12-file-base64: ${{ secrets.ENTERPRISEP12 }}
           p12-password: ${{ secrets.ENTERPRISE_PASS }}
       - name: Build4Testing
-        run: xcodebuild -workspace /Users/vagrant/git/EmarsysSDK.xcworkspace -scheme Tests -configuration Debug -destination generic/platform=iOS build-for-testing-allowProvisioningUpdates
+        run: xcodebuild -workspace ~/runner/work/ios-emarsys-sdk/ios-emarsys-sdk/EmarsysSDK.xcworkspace -scheme Tests -configuration Debug -destination generic/platform=iOS build-for-testing-allowProvisioningUpdates
         shell: bash
       - name: Test
         uses: sersoft-gmbh/xcodebuild-action@v1
