@@ -26,10 +26,10 @@ jobs:
       #   run: echo ${{ secrets.FIREBASE_SERVICE_KEY }} > /tmp/sacc_key.json | ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file /tmp/sacc_key.json | ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet | zip -r Tests.zip ~/tmp/Build/Products/ | ~/google-cloud-sdk/bin/gcloud firebase test ios run --quiet --test ./Tests.zip ${{ secrets.FIREBASE_DEVICES }}
       #   shell: bash
       - name: Run tests on Firebase 1
-        run: echo ${{ secrets.FIREBASE_SERVICE_KEY }} > /tmp/sacc_key.json
+        run: echo ${{ secrets.FIREBASE_SERVICE_KEY }} > ~/tmp/sacc_key.json
         shell: bash
       - name: Run tests on Firebase 2
-        run: ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file /tmp/sacc_key.json
+        run: ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file ~/tmp/sacc_key.json
         shell: bash
       - name: Run tests on Firebase 3
         run: ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet
