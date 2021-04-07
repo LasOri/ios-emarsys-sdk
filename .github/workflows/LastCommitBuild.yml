@@ -12,8 +12,8 @@ jobs:
       - name: Setup certs
         uses: apple-actions/import-codesign-certs@v1
         with:
-          p12-file-base64: ${{ secrets.ENTERPRISEP12 }}
-          p12-password: ${{ secrets.ENTERPRISE_PASS }}
+          p12-file-base64: ${{ secrets.SDK_TEAM_P12 }}
+          p12-password: ${{ secrets.SDK_TEAM_PASS }}
       - name: Build4Testing
         run: xcodebuild -workspace ~/work/ios-emarsys-sdk/ios-emarsys-sdk/EmarsysSDK.xcworkspace -scheme Tests -configuration Debug -destination generic/platform=iOS build-for-testing -allowProvisioningUpdates
         shell: bash
