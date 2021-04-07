@@ -14,13 +14,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install Dependencies
-        run: pod install --no-repo-update --verbose
-        shell: bash
+         run: pod install --no-repo-update --verbose
+       shell: bash
       - name: Setup certs
         uses: apple-actions/import-codesign-certs@v1
         with: 
           p12-file-base64: ${{ secrets.ENTERPRISEP12 }}
           p12-password: ${{ secrets.ENTERPRISE_PASS }}
+      - name: Build for testing
+         run: xcodebuild -workspace ~/work/ios-emarsys-sdk/ios-emarsys-sdk/EmarsysSDK.xcworkspace -scheme Tests -configuration Debug -destination generic/platform=iOS build-for-testing -allowProvisioningUpdates | xcpretty
+       shell: bash
       - name: Test
         uses: sersoft-gmbh/xcodebuild-action@v1
         with:
