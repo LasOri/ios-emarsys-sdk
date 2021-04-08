@@ -6,24 +6,57 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      # - name: Purge old stuffs
+      #   run: rm -rf ~/tmp | rm -rf ~/Library/MobileDevice
+      #   shell: bash
+      # - name: Install Dependencies
+      #   run: pod install --no-repo-update --verbose
+      #   shell: bash
+      # - name: Setup certs
+      #   uses: apple-actions/import-codesign-certs@v1
+      #   with:
+      #     p12-file-base64: ${{ secrets.SDK_TEAM_P12 }}
+      #     p12-password: ${{ secrets.SDK_TEAM_PASS }}
+      # - name: Build4Testing
+      #   run: >-
+      #     echo ${{ secrets.SDK_HOST_MOBILEPROVISION }} > provprof | mkdir ~/Library/MobileDevice | mkdir ~/Library/MobileDevice/Provisioning\ Profiles | base64 -d -i provprof -o ~/Library/MobileDevice/Provisioning\ Profiles/SDKHost.mobileprovision | mkdir ~/tmp | xcodebuild -workspace ~/work/ios-emarsys-sdk/ios-emarsys-sdk/EmarsysSDK.xcworkspace -scheme Tests -configuration Debug -destination generic/platform=iOS build-for-testing -allowProvisioningUpdates -derivedDataPath
+      #     ~/tmp
+      #   shell: bash
+      # - name: Run tests on Firebase 0,5
+      #   run: curl https://sdk.cloud.google.com | bash
+      #   shell: bash      
+      # - name: Run tests on Firebase 1
+      #   run: echo ${{ secrets.FIREBASE_SERVICE_KEY }} > ~/tmp/sacc_key
+      #   shell: bash   
+      # - name: Run tests on Firebase 1,25
+      #   run: base64 -d -i ~/tmp/sacc_key -o ~/tmp/sacc_key.json
+      #   shell: bash   
+      # - name: Run tests on Firebase 2
+      #   run: ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file ~/tmp/sacc_key.json
+      #   shell: bash
+      # - name: Run tests on Firebase 3
+      #   run: ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet
+      #   shell: bash
+      # - name: Run tests on Firebase 4
+      #   run: cd ~/tmp/Build/Products && zip -r ~/Tests.zip ./
+      #   shell: bash     
+      # - name: Run tests on Firebase 5
+      #   run: ~/google-cloud-sdk/bin/gcloud firebase test ios run --quiet --test ~/Tests.zip ${{ secrets.FIREBASE_DEVICES }}
+      #   shell: bash
       - name: Install Dependencies
-        run: pod install --no-repo-update --verbose
+        run: cd Emarsys\ Sample && pod deintegrate && pod install
         shell: bash
       - name: Setup certs
         uses: apple-actions/import-codesign-certs@v1
         with:
-          p12-file-base64: ${{ secrets.SDK_TEAM_P12 }}
-          p12-password: ${{ secrets.SDK_TEAM_PASS }}
-      - name: Build4Testing
-        run: base64 -d ${{ secrets.SDK_HOST_MOBILEPROVISION }} -o ~/Library/MobileDevice/Provisioning\ Profiles/SDKHost.mobileprovision | mkdir ~/tmp | xcodebuild -workspace ~/work/ios-emarsys-sdk/ios-emarsys-sdk/EmarsysSDK.xcworkspace -scheme Tests -configuration Debug -destination generic/platform=iOS build-for-testing -allowProvisioningUpdates -derivedDataPath ~/tmp
+          p12-file-base64: ${{ secrets.ENTERPRISEP12 }}
+          p12-password: ${{ secrets.ENTERPRISE_PASS }}
+      - name: Setup Prov Profs
+        run: mkdir ~/Library/MobileDevice | mkdir ~/Library/MobileDevice/Provisioning\ Profiles | echo ${{ secrets.EMARSYS_SAMPLE_ENTERPRISE_PROV_PROF }} > sampleProvProf |  base64 -d -i sampleProvProf -o ~/Library/MobileDevice/Provisioning\ Profiles/EmarsysSampleEnterpriseProvProf.mobileprovision | echo ${{ secrets.EMARSYS_SAMPLE_NOTIFICATION_SERVICE_ENTERPRISE_PROV_PROF }} > sampleServiceProvProf |  base64 -d -i sampleServiceProvProf -o ~/Library/MobileDevice/Provisioning\ Profiles/EmarsysSampleNotificationServiceEnterpriseProvProf.mobileprovision
         shell: bash
-      - name: Test
-        uses: sersoft-gmbh/xcodebuild-action@v1
-        with:
-          action: build-for-testing
-          destination: platform=iOS Simulator,name=iPhone 11
-          scheme: Tests
-          workspace: EmarsysSDK.xcworkspace
+      - name: Sample archive
+        run: cd Emarsys\ Sample && xcodebuild -workspace Emarsys-Sample.xcworkspace -scheme Emarsys-Sample COMPILER_INDEX_STORE_ENABLE=NO archive -archivePath ./Emarsys-Sample.xcarchive -destination generic/platform=iOS -allowProvisioningUpdates | xcpretty
+        shell: bash
 name: Last commit build
 'on':
   push:
