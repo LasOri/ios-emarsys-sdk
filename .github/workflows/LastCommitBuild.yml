@@ -44,7 +44,7 @@ jobs:
       #   run: ~/google-cloud-sdk/bin/gcloud firebase test ios run --quiet --test ~/Tests.zip ${{ secrets.FIREBASE_DEVICES }}
       #   shell: bash
       - name: Install Dependencies
-        run: cd Emarsys\ Sample && pod deintegrate && pod update
+        run: cd Emarsys\ Sample && pod deintegrate && pod install
         shell: bash
       - name: Setup certs
         uses: apple-actions/import-codesign-certs@v1
@@ -52,7 +52,7 @@ jobs:
           p12-file-base64: ${{ secrets.ENTERPRISEP12 }}
           p12-password: ${{ secrets.ENTERPRISE_PASS }}
       - name: Sample archive
-        run: xcodebuild -workspace Emarsys-Sample.xcworkspace -scheme Emarsys-Sample COMPILER_INDEX_STORE_ENABLE=NO archive -archivePath ./Emarsys-Sample.xcarchive -destination generic/platform=iOS -allowProvisioningUpdates | xcpretty
+        run: cd Emarsys\ Sample && xcodebuild -workspace Emarsys-Sample.xcworkspace -scheme Emarsys-Sample COMPILER_INDEX_STORE_ENABLE=NO archive -archivePath ./Emarsys-Sample.xcarchive -destination generic/platform=iOS -allowProvisioningUpdates | xcpretty
         shell: bash
 name: Last commit build
 'on':
