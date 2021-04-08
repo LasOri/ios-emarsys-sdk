@@ -6,9 +6,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # - name: Purge old stuffs
-      #   run: rm -rf ~/tmp | rm -rf ~/Library/MobileDevice
-      #   shell: bash
+      - name: Purge old stuffs
+        run: rm -rf ~/tmp | rm -rf ~/Library/MobileDevice
+        shell: bash
       # - name: Install Dependencies
       #   run: pod install --no-repo-update --verbose
       #   shell: bash
