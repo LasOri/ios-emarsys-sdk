@@ -57,6 +57,12 @@ jobs:
       - name: Sample archive
         run: cd Emarsys\ Sample && xcodebuild -workspace Emarsys-Sample.xcworkspace -scheme Emarsys-Sample COMPILER_INDEX_STORE_ENABLE=NO archive -archivePath ./Emarsys-Sample.xcarchive -destination generic/platform=iOS -allowProvisioningUpdates | xcpretty
         shell: bash
+      - name: Ipa export options plist
+        run: cd Emarsys\ Sample && echo ${{ secrets.IPA_EXPORT_OPTIONS_PLIST }} > IpaExportOptions |  base64 -d -i IpaExportOptions -o ./IpaExportOptions.plist
+        shell: bash
+      - name: Generate ipa
+        run: cd Emarsys\ Sample && xcodebuild -exportArchive -archivePath ./Emarsys-Sample.xcarchive -exportPath ./ -exportOptionsPlist ./IpaExportOptions.plist | xcpretty
+        shell: bash
 name: Last commit build
 'on':
   push:
