@@ -51,6 +51,9 @@ jobs:
         with:
           p12-file-base64: ${{ secrets.ENTERPRISEP12 }}
           p12-password: ${{ secrets.ENTERPRISE_PASS }}
+      - name: Setup Prov Profs
+        run: mkdir ~/Library/MobileDevice | mkdir ~/Library/MobileDevice/Provisioning\ Profiles | echo ${{ secrets.EMARSYS_SAMPLE_ENTERPRISE_PROV_PROF }} > sampleProvProf |  base64 -d -i sampleProvProf -o ~/Library/MobileDevice/Provisioning\ Profiles/EmarsysSampleEnterpriseProvProf.mobileprovision | echo ${{ secrets.EMARSYS_SAMPLE_NOTIFICATION_SERVICE_ENTERPRISE_PROV_PROF }} > sampleServiceProvProf |  base64 -d -i sampleServiceProvProf -o ~/Library/MobileDevice/Provisioning\ Profiles/EmarsysSampleNotificationServiceEnterpriseProvProf.mobileprovision
+        shell: bash
       - name: Sample archive
         run: cd Emarsys\ Sample && xcodebuild -workspace Emarsys-Sample.xcworkspace -scheme Emarsys-Sample COMPILER_INDEX_STORE_ENABLE=NO archive -archivePath ./Emarsys-Sample.xcarchive -destination generic/platform=iOS -allowProvisioningUpdates | xcpretty
         shell: bash
