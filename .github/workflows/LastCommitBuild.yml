@@ -46,7 +46,11 @@ jobs:
       - name: Install Dependencies
         run: cd Emarsys\ Sample && pod deintegrate && pod update
         shell: bash
-
+      - name: Setup certs
+        uses: apple-actions/import-codesign-certs@v1
+        with:
+          p12-file-base64: ${{ secrets.ENTERPRISEP12 }}
+          p12-password: ${{ secrets.ENTERPRISE_PASS }}
 name: Last commit build
 'on':
   push:
