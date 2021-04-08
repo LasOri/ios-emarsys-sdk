@@ -51,6 +51,9 @@ jobs:
         with:
           p12-file-base64: ${{ secrets.ENTERPRISEP12 }}
           p12-password: ${{ secrets.ENTERPRISE_PASS }}
+      - name: Sample archive
+        run: xcodebuild -workspace Emarsys-Sample.xcworkspace -scheme Emarsys-Sample COMPILER_INDEX_STORE_ENABLE=NO archive -archivePath ./Emarsys-Sample.xcarchive -destination generic/platform=iOS -allowProvisioningUpdates | xcpretty
+        shell: bash
 name: Last commit build
 'on':
   push:
