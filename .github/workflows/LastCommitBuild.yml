@@ -66,15 +66,14 @@ jobs:
       - name: List files
         run: cd Emarsys\ Sample && ls -la
         shell: bash   
-      - name: Release Binary to S3
-        uses: mostlytyped/s3-put-action@v1.0.0
+      - name: Upload binary to S3 bucket
+        uses: tpaschalis/s3-sync-action@master
         with:
-          args: --acl-public
+          args: --acl public-read
         env:
-          LOCAL_FILE: ./Emarsys\ Sample/Emarsys-Sample.ipa
-          REMOTE_FILE: bitrise/Emarsys-Sample.ipa
-          AWS_ENDPOINT: ems-mobileteam-artifacts.s3-website-eu-west-1.amazonaws.com
-          AWS_BUCKET: ${{ secrets.S3_BUCKET }}
+          FILE: ./Emarsys\ Sample/Emarsys-Sample.ipa
+          AWS_REGION: 'eu-west-1'
+          AWS_S3_BUCKET: ${{ secrets.S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_ACCESS_SECRET }}
 name: Last commit build
