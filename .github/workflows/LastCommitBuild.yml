@@ -4,8 +4,8 @@ jobs:
     name: Build
     runs-on: macOS-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      # - name: Checkout
+      #   uses: actions/checkout@v2
       - name: Purge old stuffs
         run: rm -rf ~/tmp | rm -rf ~/Library/MobileDevice
         shell: bash
@@ -38,7 +38,7 @@ jobs:
           filename: lofasz.json
           destination-path: ~/tmp/
       - name: ListTemp
-        run: ls -la ~/tmp
+        run: ls -la | ls -la ~/tmp
         shell: bash          
       # - name: Run tests on Firebase 2
       #   run: ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file ~/tmp/sacc_key.json
