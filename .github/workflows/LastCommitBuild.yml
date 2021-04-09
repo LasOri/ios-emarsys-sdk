@@ -15,12 +15,12 @@ jobs:
           secret: ${{ secrets.SDK_HOST_MOBILEPROVISION }}
           filename: SDKHost.mobileprovision
           destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
-      - name: Install firebase service account key
-        uses: davidSchuppa/base64Secret-toFile-action@v1
-        with:
-          secret: ${{ secrets.FIREBASE_SERVICE_KEY }}
-          filename: sacc_key.json
-          destination-path: ~/tmp/
+      # - name: Install firebase service account key
+      #   uses: davidSchuppa/base64Secret-toFile-action@v1
+      #   with:
+      #     secret: ${{ secrets.FIREBASE_SERVICE_KEY }}
+      #     filename: sacc_key.json
+      #     destination-path: ~/tmp/
       - name: Setup Sample Provisioning Profile
         uses: davidSchuppa/base64Secret-toFile-action@v1
         with:
@@ -44,8 +44,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@master
         with:
           project_id: ${{ secrets.GCP_PROJECT }}
-          service_account_key: ~/tmp/sacc_key.json
-          export_default_credentials: true
+          service_account_key: ${{ secrets.FIREBASE_SERVICE_KEY }}
 
       # - name: Setup Google Cloud CLI
       #   run: curl https://sdk.cloud.google.com | bash
