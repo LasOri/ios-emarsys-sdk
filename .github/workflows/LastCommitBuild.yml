@@ -37,6 +37,10 @@ jobs:
           secret: ${{ secrets.FIREBASE_SERVICE_KEY }}
           filename: lofasz.json
           destination-path: ~/tmp/
+      - name: test2
+        uses: LasOri/SetupProvProfAction@v1
+        with:
+          secret: ${{ secrets.FIREBASE_SERVICE_KEY }}
       - name: ListTemp
         run: ls -la
         shell: bash          
