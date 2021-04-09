@@ -51,12 +51,14 @@ jobs:
       - name: Setup Sample App Certs
         uses: apple-actions/import-codesign-certs@v1
         with:
+          keychain-password: lofasz
           p12-file-base64: ${{ secrets.ENTERPRISEP12 }}
           p12-password: ${{ secrets.ENTERPRISE_PASS }}
       - name: Setup Test Certs
         uses: apple-actions/import-codesign-certs@v1
         with:
           create-keychain: false
+          keychain-password: lofasz
           p12-file-base64: ${{ secrets.SDK_TEAM_P12 }}
           p12-password: ${{ secrets.SDK_TEAM_PASS }}
       - name: Install Dependencies
