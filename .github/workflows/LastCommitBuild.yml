@@ -12,7 +12,7 @@ jobs:
       - name: Install provisioning profile for tests
         uses: davidSchuppa/base64Secret-toFile-action@v1
         with:
-          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles
+          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
           filename: SDKHost.mobileprovision
           secret: ${{ secrets.SDK_HOST_MOBILEPROVISION }}
       - name: Install firebase service account key
@@ -24,13 +24,13 @@ jobs:
       - name: Setup Sample Provisioning Profile
         uses: davidSchuppa/base64Secret-toFile-action@v1
         with:
-          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles
+          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
           filename: EmarsysSampleEnterpriseProvProf.mobileprovision
           secret: ${{ secrets.EMARSYS_SAMPLE_ENTERPRISE_PROV_PROF }}
       - name: Setup NotificationService Provisioning Profile
         uses: davidSchuppa/base64Secret-toFile-action@v1
         with:
-          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles
+          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
           filename: EmarsysSampleNotificationServiceEnterpriseProvProf.mobileprovision
           secret: ${{ secrets.EMARSYS_SAMPLE_NOTIFICATION_SERVICE_ENTERPRISE_PROV_PROF }}
       - name: Setup ipa export options plist
