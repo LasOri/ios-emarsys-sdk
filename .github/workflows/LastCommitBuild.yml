@@ -48,17 +48,17 @@ jobs:
       - name: Setup Google Cloud Project
         run: ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet
         shell: bash
-      - name: Setup Test Certs
-        uses: apple-actions/import-codesign-certs@v1
-        with:
-          p12-file-base64: ${{ secrets.SDK_TEAM_P12 }}
-          p12-password: ${{ secrets.SDK_TEAM_PASS }}
       - name: Setup Sample App Certs
         uses: apple-actions/import-codesign-certs@v1
         with:
-          create-keychain: false
           p12-file-base64: ${{ secrets.ENTERPRISEP12 }}
           p12-password: ${{ secrets.ENTERPRISE_PASS }}
+      - name: Setup Test Certs
+        uses: apple-actions/import-codesign-certs@v1
+        with:
+          create-keychain: false
+          p12-file-base64: ${{ secrets.SDK_TEAM_P12 }}
+          p12-password: ${{ secrets.SDK_TEAM_PASS }}
       - name: Install Dependencies
         run: pod install --no-repo-update --verbose
         shell: bash
