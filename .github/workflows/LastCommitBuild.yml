@@ -78,7 +78,7 @@ jobs:
         run: cd ~/tmp/Build/Products && zip -r ~/Tests.zip ./
         shell: bash
       - name: Run tests on Firebase
-        run: ~/google-cloud-sdk/bin/gcloud firebase test ios run --quiet --test ~/Tests.zip ${{ secrets.FIREBASE_DEVICES }}
+        run: gcloud firebase test ios run --quiet --test ~/Tests.zip ${{ secrets.FIREBASE_DEVICES }}
         shell: bash
       - name: Install Dependencies
         run: cd Emarsys\ Sample && pod deintegrate && pod install
