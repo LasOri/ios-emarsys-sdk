@@ -12,33 +12,33 @@ jobs:
       - name: Install provisioning profile for tests
         uses: davidSchuppa/base64Secret-toFile-action@v1
         with:
-          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
-          filename: SDKHost.mobileprovision
           secret: ${{ secrets.SDK_HOST_MOBILEPROVISION }}
+          filename: SDKHost.mobileprovision
+          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
       - name: Install firebase service account key
         uses: davidSchuppa/base64Secret-toFile-action@v1
         with:
-          destination-path: ~/tmp/
-          filename: sacc_key.json
           secret: ${{ secrets.FIREBASE_SERVICE_KEY }}
+          filename: sacc_key.json
+          destination-path: ~/tmp/
       - name: Setup Sample Provisioning Profile
         uses: davidSchuppa/base64Secret-toFile-action@v1
         with:
-          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
-          filename: EmarsysSampleEnterpriseProvProf.mobileprovision
           secret: ${{ secrets.EMARSYS_SAMPLE_ENTERPRISE_PROV_PROF }}
+          filename: EmarsysSampleEnterpriseProvProf.mobileprovision
+          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
       - name: Setup NotificationService Provisioning Profile
         uses: davidSchuppa/base64Secret-toFile-action@v1
         with:
-          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
-          filename: EmarsysSampleNotificationServiceEnterpriseProvProf.mobileprovision
           secret: ${{ secrets.EMARSYS_SAMPLE_NOTIFICATION_SERVICE_ENTERPRISE_PROV_PROF }}
+          filename: EmarsysSampleNotificationServiceEnterpriseProvProf.mobileprovision
+          destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
       - name: Setup ipa export options plist
         uses: davidSchuppa/base64Secret-toFile-action@v1
         with:
-          destination-path: ./Emarsys\ Sample
-          filename: IpaExportOptions.plist
           secret: ${{ secrets.IPA_EXPORT_OPTIONS_PLIST }}
+          filename: IpaExportOptions.plist
+          destination-path: ./Emarsys\ Sample
       - name: Setup Google Cloud CLI
         run: curl https://sdk.cloud.google.com | bash
         shell: bash
