@@ -39,15 +39,23 @@ jobs:
           secret: ${{ secrets.IPA_EXPORT_OPTIONS_PLIST }}
           filename: IpaExportOptions.plist
           destination-path: ./Emarsys\ Sample
-      - name: Setup Google Cloud CLI
-        run: curl https://sdk.cloud.google.com | bash
-        shell: bash
-      - name: Auth To Google Cloud CLI
-        run: ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file ~/tmp/sacc_key.json
-        shell: bash
-      - name: Setup Google Cloud Project
-        run: ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet
-        shell: bash
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GCP_PROJECT }}
+          service_account_key: ~/tmp/sacc_key.json
+          export_default_credentials: true
+
+      # - name: Setup Google Cloud CLI
+      #   run: curl https://sdk.cloud.google.com | bash
+      #   shell: bash
+      # - name: Auth To Google Cloud CLI
+      #   run: ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file ~/tmp/sacc_key.json
+      #   shell: bash
+      # - name: Setup Google Cloud Project
+      #   run: ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet
+      #   shell: bash
       - name: Setup Sample App Certs
         uses: apple-actions/import-codesign-certs@v1
         with:
