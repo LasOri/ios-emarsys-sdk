@@ -33,6 +33,12 @@ jobs:
           secret: ${{ secrets.IPA_EXPORT_OPTIONS_PLIST }}
           filename: IpaExportOptions.plist
           destination-path: ./Emarsys\ Sample
+      - name: Setup GoogleServices.plist
+        uses: davidSchuppa/base64Secret-toFile-action@v1
+        with:
+          secret: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
+          filename: GoogleService-Info.plist
+          destination-path: ./Emarsys\ Sample/Emarsys-Sample
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@master
         with:
