@@ -15,12 +15,6 @@ jobs:
           secret: ${{ secrets.SDK_HOST_MOBILEPROVISION }}
           filename: SDKHost.mobileprovision
           destination-path: ~/Library/MobileDevice/Provisioning\ Profiles/
-      # - name: Install firebase service account key
-      #   uses: davidSchuppa/base64Secret-toFile-action@v1
-      #   with:
-      #     secret: ${{ secrets.FIREBASE_SERVICE_KEY }}
-      #     filename: sacc_key.json
-      #     destination-path: ~/tmp/
       - name: Setup Sample Provisioning Profile
         uses: davidSchuppa/base64Secret-toFile-action@v1
         with:
@@ -44,26 +38,17 @@ jobs:
         with:
           project_id: ${{ secrets.GCP_PROJECT }}
           service_account_key: ${{ secrets.FIREBASE_SERVICE_KEY }}
-      # - name: Setup Google Cloud CLI
-      #   run: curl https://sdk.cloud.google.com | bash
-      #   shell: bash
-      # - name: Auth To Google Cloud CLI
-      #   run: ~/google-cloud-sdk/bin/gcloud auth activate-service-account -q --key-file ~/tmp/sacc_key.json
-      #   shell: bash
-      # - name: Setup Google Cloud Project
-      #   run: ~/google-cloud-sdk/bin/gcloud config set project ${{ secrets.GCP_PROJECT }} --quiet
-      #   shell: bash
       - name: Setup Sample App Certs
         uses: apple-actions/import-codesign-certs@v1
         with:
-          keychain-password: lofasz
+          keychain-password: ${{ secrets.KEYCHAIN_PASS }}
           p12-file-base64: ${{ secrets.ENTERPRISEP12 }}
           p12-password: ${{ secrets.ENTERPRISE_PASS }}
       - name: Setup Test Certs
         uses: apple-actions/import-codesign-certs@v1
         with:
           create-keychain: false
-          keychain-password: lofasz
+          keychain-password: ${{ secrets.KEYCHAIN_PASS }}
           p12-file-base64: ${{ secrets.SDK_TEAM_P12 }}
           p12-password: ${{ secrets.SDK_TEAM_PASS }}
       - name: Install Dependencies
@@ -87,6 +72,14 @@ jobs:
       - name: Generate ipa
         run: cd Emarsys\ Sample && xcodebuild -exportArchive -archivePath ./Emarsys-Sample.xcarchive -exportPath ./ -exportOptionsPlist ./IpaExportOptions.plist | xcpretty
         shell: bash
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.S3_ACCESS_ID }}
+      #     aws-secret-access-key: ${{ secrets.S3_ACCESS_SECRET }}
+      #     aws-region: eu-west-1
+      # - name: Upload ipa
+      #   run: aws s3 cp ./Emarsys\ Sample/Emarsys-Sample.ipa s3://${{ secrets.S3_BUCKET }}/bitrise/Emarsys-Sample.ipa
 name: Last commit build
 'on':
   push:
