@@ -8,10 +8,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Git rev list
-      run: git rev-list --count
+      run: git rev-list --count HEAD
       shell: bash
     - name: Git pull rev list
-      run: git pull && git rev-list --count
+      run: git pull && git rev-list --count HEAD
       shell: bash
     - name: Git list
       run: git rev-list
