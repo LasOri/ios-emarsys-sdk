@@ -7,6 +7,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      with: 
+        fetch-depth: 0
     - name: Git rev list
       run: git log --pretty=format:'' | wc -l
       shell: bash
