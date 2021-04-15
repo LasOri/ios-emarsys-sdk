@@ -8,13 +8,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Git rev list
-      run: git rev-list --count HEAD
+      run: git log --pretty=format:'' | wc -l
       shell: bash
     - name: Git pull rev list
       run: git pull && git rev-list --count HEAD
-      shell: bash
-    - name: Git list
-      run: git rev-list
       shell: bash      
     # - name: Remove old directories
     #   run: rm -rf ~/tmp | rm -rf ~/Library/MobileDevice
